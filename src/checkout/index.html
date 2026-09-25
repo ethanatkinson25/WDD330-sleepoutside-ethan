@@ -48,8 +48,88 @@
     </header>
 
     <main class="divider">
-      <section class="products">
-        <h2>Review & Place your Order</h2>
+      <section class="checkout-page">
+        <h2>Review &amp; Place your Order</h2>
+
+        <div class="checkout-layout">
+          <form id="checkout-form" class="checkout-form" novalidate>
+            <fieldset>
+              <legend>Customer Name</legend>
+              <div class="form-row">
+                <label for="firstName">First Name</label>
+                <input id="firstName" name="fname" type="text" required />
+              </div>
+              <div class="form-row">
+                <label for="lastName">Last Name</label>
+                <input id="lastName" name="lname" type="text" required />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Address</legend>
+              <div class="form-row">
+                <label for="street">Street Address</label>
+                <input id="street" name="street" type="text" required />
+              </div>
+              <div class="form-row split-row">
+                <div>
+                  <label for="city">City</label>
+                  <input id="city" name="city" type="text" required />
+                </div>
+                <div>
+                  <label for="state">State</label>
+                  <input id="state" name="state" type="text" required />
+                </div>
+                <div>
+                  <label for="zip">Zip Code</label>
+                  <input id="zip" name="zip" type="text" required />
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Payment</legend>
+              <div class="form-row">
+                <label for="cardNumber">Credit Card Number</label>
+                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" value="1234123412341234" required />
+              </div>
+              <div class="form-row split-row payment-row">
+                <div>
+                  <label for="expiration">Expiration Date</label>
+                  <input id="expiration" name="expiration" type="text" placeholder="MM/YY" value="12/30" required />
+                </div>
+                <div>
+                  <label for="securityCode">Security Code</label>
+                  <input id="securityCode" name="code" type="password" inputmode="numeric" value="123" required />
+                </div>
+              </div>
+            </fieldset>
+
+            <button type="submit">Checkout</button>
+          </form>
+
+          <aside class="order-summary" aria-live="polite">
+            <h3>Order Summary</h3>
+            <dl class="summary-list">
+              <div>
+                <dt>Subtotal</dt>
+                <dd id="subtotal">$0.00</dd>
+              </div>
+              <div>
+                <dt>Tax</dt>
+                <dd id="tax">$0.00</dd>
+              </div>
+              <div>
+                <dt>Shipping Estimate</dt>
+                <dd id="shipping">$0.00</dd>
+              </div>
+              <div class="summary-total">
+                <dt>Order Total</dt>
+                <dd id="total">$0.00</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
       </section>
     </main>
 
