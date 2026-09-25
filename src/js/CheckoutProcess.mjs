@@ -10,8 +10,19 @@ function getLocalStorage(key) {
   }
 }
 
+function formDataToJSON(formElement) {
+  const formData = new FormData(formElement);
+  const convertedJSON = {};
+
+  formData.forEach((value, key) => {
+    convertedJSON[key] = value;
+  });
+
+  return convertedJSON;
+}
+
 export default class CheckoutProcess {
-  constructor(key, outputSelector) {
+  constructor(key, outputSelector, services = null) {
     this.key = key;
     this.outputSelector = outputSelector;
     this.list = [];
@@ -19,11 +30,21 @@ export default class CheckoutProcess {
     this.shipping = 0;
     this.tax = 0;
     this.orderTotal = 0;
+    this.services = services;
   }
 
   init() {
     this.list = getLocalStorage(this.key);
     this.calculateItemSubTotal();
+  }
+
+  packageItems(items) {
+    return items.map((item) => ({
+      id: item.Id || item.id,
+      name: item.Name || item.name,
+      price: Number(item.FinalPrice ?? item.price ?? 0),
+      quantity: Number(item.Quantity ?? item.quantity ?? 1),
+    }));
   }
 
   calculateItemSubTotal() {
@@ -55,5 +76,24 @@ export default class CheckoutProcess {
     if (tax) tax.innerText = `$${this.tax.toFixed(2)}`;
     if (shipping) shipping.innerText = `$${this.shipping.toFixed(2)}`;
     if (total) total.innerText = `$${this.orderTotal.toFixed(2)}`;
+  }
+
+  async checkout(form) {
+    const formData = formDataToJSON(form);
+    const payload = {
+      ...formData,
+      orderDate: new Date().toISOString(),
+      items: this.packageItems(this.list),
+      orderTotal: this.orderTotal.toFixed(2),
+      shipping: this.shipping,
+      tax: this.tax.toFixed(2),
+    };
+
+    if (!this.services) {
+      const module = await import("./ExternalServices.mjs");
+      this.services = new module.default();
+    }
+
+    return this.services.checkout(payload);
   }
 }

@@ -57,11 +57,11 @@
               <legend>Customer Name</legend>
               <div class="form-row">
                 <label for="firstName">First Name</label>
-                <input id="firstName" name="firstName" type="text" required />
+                <input id="firstName" name="fname" type="text" required />
               </div>
               <div class="form-row">
                 <label for="lastName">Last Name</label>
-                <input id="lastName" name="lastName" type="text" required />
+                <input id="lastName" name="lname" type="text" required />
               </div>
             </fieldset>
 
@@ -91,16 +91,16 @@
               <legend>Payment</legend>
               <div class="form-row">
                 <label for="cardNumber">Credit Card Number</label>
-                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" required />
+                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" value="1234123412341234" required />
               </div>
               <div class="form-row split-row payment-row">
                 <div>
                   <label for="expiration">Expiration Date</label>
-                  <input id="expiration" name="expiration" type="text" placeholder="MM/YY" required />
+                  <input id="expiration" name="expiration" type="text" placeholder="MM/YY" value="12/30" required />
                 </div>
                 <div>
                   <label for="securityCode">Security Code</label>
-                  <input id="securityCode" name="securityCode" type="password" inputmode="numeric" required />
+                  <input id="securityCode" name="code" type="password" inputmode="numeric" value="123" required />
                 </div>
               </div>
             </fieldset>
