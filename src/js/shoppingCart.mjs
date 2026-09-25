@@ -3,6 +3,7 @@ import { loadHeaderFooter } from "./utils.mjs";
 
 loadHeaderFooter();
 
+// Builds the HTML for a single cart item row.
 function cartItemTemplate(item) {
   return `
     <li class="cart-card divider">
@@ -20,16 +21,19 @@ function cartItemTemplate(item) {
 }
 
 export default class ShoppingCart {
+  // Stores the storage key and the cart container element.
   constructor(key, listElement) {
     this.key = key;
     this.listElement = listElement;
   }
 
+  // Returns the cart items from localStorage as an array.
   getItems() {
     const items = getLocalStorage(this.key);
     return Array.isArray(items) ? items : [];
   }
 
+  // Renders the cart contents or an empty-state message.
   renderCartContents() {
     const cartItems = this.getItems();
 

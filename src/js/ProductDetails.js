@@ -1,23 +1,28 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { alertMessage, getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 export default class ProductDetails {
+  // Stores the selected product ID and its data source.
   constructor(productId, dataSource) {
     this.productId = productId;
     this.product = {};
     this.dataSource = dataSource;
   }
 
+  // Loads the selected product and renders its detail view.
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
     this.renderProductDetails();
   }
 
+  // Adds the current product to the shopping cart and confirms it to the user.
   addProductToCart() {
     const cartItems = getLocalStorage("so-cart") || [];
     cartItems.push(this.product);
     setLocalStorage("so-cart", cartItems);
+    alertMessage(`${this.product.NameWithoutBrand} added to cart.`);
   }
 
+  // Builds and injects the product detail markup into the page.
   renderProductDetails() {
     const productElement = document.querySelector(".product-detail");
     if (!productElement) return;
@@ -31,6 +36,7 @@ export default class ProductDetails {
   }
 }
 
+// Creates the HTML for a product detail card.
 function productDetailsTemplate(product) {
   const imageUrl = product.Images?.PrimaryLarge || product.Image || "";
   const brandName = product.Brand?.Name || "";

@@ -1,4 +1,4 @@
-import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter, alertMessage } from "./utils.mjs";
 import CheckoutProcess from "./CheckoutProcess.mjs";
 
 loadHeaderFooter();
@@ -23,13 +23,18 @@ form?.addEventListener("submit", async (event) => {
   try {
     const response = await checkout.checkout(form);
     console.log("Order submitted successfully", response);
-    alert("Thank you! Your order has been placed.");
     form.reset();
     localStorage.removeItem("so-cart");
     checkout.init();
     checkout.calculateOrderTotal();
+    window.location.href = "./success.html";
   } catch (error) {
     console.error("Checkout failed", error);
-    alert("There was a problem submitting your order. Please try again.");
+    const errorMessage =
+      error?.message && typeof error.message === "object"
+        ? JSON.stringify(error.message)
+        : error?.message || "There was a problem submitting your order. Please try again.";
+
+    alertMessage(errorMessage);
   }
 });
