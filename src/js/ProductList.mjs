@@ -10,6 +10,7 @@ const pagePaths = {
   "344YJ": "product_pages/cedar-ridge-rimrock-2.html",
 };
 
+// Builds the HTML markup for a single product card.
 function productCardTemplate(product, category) {
   const imageUrl = product.Images?.PrimaryMedium || product.Image || "";
   const brandName = product.Brand?.Name || "";
@@ -31,6 +32,7 @@ function productCardTemplate(product, category) {
 }
 
 export default class ProductList {
+  // Stores the category, data source, and target container for the list.
   constructor(category, dataSource, listElement, searchQuery = "") {
     this.category = category;
     this.dataSource = dataSource;
@@ -38,6 +40,7 @@ export default class ProductList {
     this.searchQuery = searchQuery;
   }
 
+  // Fetches product data and renders the page title and product list.
   async init() {
     const list = this.searchQuery
       ? await this.dataSource.searchProducts(this.searchQuery)
@@ -57,15 +60,13 @@ export default class ProductList {
     }
   }
 
+  // Renders the products returned by the API, while still linking known product pages when available.
   renderList(list) {
     const products = Array.isArray(list) ? list : [];
-    const visibleProducts = this.searchQuery
-      ? products
-      : products.filter((product) => pagePaths[product.Id]);
     renderListWithTemplate(
       (product) => productCardTemplate(product, this.category || "tents"),
       this.listElement,
-      visibleProducts,
+      products,
     );
   }
 }
